@@ -370,7 +370,7 @@ function plot_violinplot(svg_id, data){
             .append("path")
             .datum(function(d){ return(d.value)})
             .style("stroke", "none")
-            .style("fill","#69b3a2")
+            .style("fill","#89d447")
             .attr("d", d3.area()
             .x0(function(d){ return(xNum(-d.length)) } )
             .x1(function(d){ return(xNum(d.length)) } )
