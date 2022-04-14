@@ -13,6 +13,64 @@
 
     <link rel="stylesheet" href="css/style.css">
 
+    <style>
+        .axis {
+          opacity: 0.4;
+        }
+        .axis:hover {
+          opacity: 1;
+        }
+    </style>
+
+    <style>
+/* Style The Dropdown Button */
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+</style>
+
 
     <!-- JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -44,8 +102,8 @@
         <ul class="navbar-nav">
             <li class="nav-item"><a class="nav-link" href="calvin.html">Calvin College 2004</a></li>
             <li class="nav-item active"><a class="nav-link" href="iris.html">Iris Dataset</a></li>
-            <li class="nav-item"><a class="nav-link" href="titanic.html">Titanic Passenger List</a></li>
-            <li class="nav-item"><a class="nav-link" href="wb_st.html">World Bank Data, Science-and-Technology</a></li>
+<!--            <li class="nav-item"><a class="nav-link" href="titanic.html">Titanic Passenger List</a></li>-->
+<!--            <li class="nav-item"><a class="nav-link" href="wb_st.html">World Bank Data, Science-and-Technology</a></li>-->
         </ul>
     </div>
 </nav>
@@ -55,37 +113,55 @@
 <div class="page" id="page_id">
 
     <h1>CAP 4744/5745 - Interactive Data Visualization</h1>
-    <h2>Project 2: Iris Dataset</h2>
+    <h2>Project 3: Iris Dataset</h2>
     <h2>Ashik Barua</h2>
     <p id="test_p"></p>
 
-    <h3>Visualization 1: Visualization Type</h3>
+    <h3>Visualization 1: Multivariate visualization(Parallel Coordinate Plot)</h3>
 
+    
     <div><svg id="vis_1" name="vis_1" class="default_svg"></svg></div>
 
-    <div id="plots">
     </div>
 
     <div>
-        <p>Tried to plot sepal length and petal length together, the code is not working and I couldn't figure out</p>
+        <p> This is a parallel coordinate plot showing the attribute values of each item(each flower). The three different classes are demonstrated by different colors. The four vertical
+        bars are denoting for different attribute of each item.</p>
     </div>
 
-    <h3>Visualization 2: Visualization Type</h3>
+    <h3>Visualization 2: Bivariate Visualization : Scatter plot</h3>
+
+    <label for="selectButtonX">Select xAxis: </label>
+    <select class='selectButton' name="selectButtonX" id="selectButtonX"></select>
+    <br/>
+    <label for="selectButtonY">Select yAxis: </label>
+    <select class='selectButton' id="selectButtonY"></select>
+
     <div><svg id="vis_2" name="vis_2" class="default_svg"></svg></div>
     <div>
-        <p>Plotted Sepal length with respect to petal length</p>
+        <p>Here, I added two buttons to select custom attribute for both the x and y axes. The three different classes are denoted by different colors. The dots will be rearranged
+        with the selection of attributes from the select boxes</p>
     </div>
 
-    <h3>Visualization 3: Visualization Type</h3>
+    <h3>Visualization 3: Easy multivariate visualization: Grouped bar chart</h3>
     <div><svg id="vis_3" name="vis_3" class="default_svg"></svg></div>
     <div>
-        <p>Plotted Sepal width with respect to petal width</p>
+        <p>This plot shows the aggregated attribute values for each class. Different attributes are represented by vibrant colors. The X-axis is divided by following the
+        three classes. When loaded for the first time, the graph is plotted dynamically to make the representation more interesting.</p>
     </div>
 
-    <h3>Visualization 4: Visualization Type</h3>
+    <h3>Visualization 4: Aggregation: Density plot </h3>
+
+    <label for="selectClass">Select class: </label>
+    <select class='selectColumn' id="selectClass"></select>
+
+    <label for="selectAttr">Select attribute: </label>
+    <select class='selectColumn' id="selectAttr"></select>
+
     <div><svg id="vis_4" name="vis_4" class="default_svg"></svg></div>
     <div>
-        <p>Percentage of each class.</p>
+        <p>This graph shows a density plot of the values, and can be customized by selecting different class name and attribute names. There are two selection box
+        to select class name and attributes. Each class is differentiated by different colors. </p>
     </div>
 
 </div>
@@ -105,20 +181,153 @@
     });
 
     iris_data.then(data => {
-        plot_barchart("#vis_1", iris_data)
+        // plot_barchart("#vis_1", iris_data)
+        plot_parallel_coor("#vis_1", iris_data)
     })
 
     iris_data.then(data => {
-        plot_scatterplot("#vis_2", iris_data)
+        plot_scatterplot_2("#vis_2", iris_data)
     })
 
     iris_data.then(data => {
         plot_multibar("#vis_3", iris_data)
     })
 
+    // iris_data.then(data => {
+    //     plot_violinplot("#vis_4", iris_data)
+    // })
+
     iris_data.then(data => {
-        plot_violinplot("#vis_4", iris_data)
+        plot_densityplot("#vis_4", iris_data)
     })
+    //
+    // var svg_id = '#vis_4'
+    //
+    // var margin = {top: 10, right: 30, bottom: 30, left: 40},
+    //     width = $(svg_id).width() - margin.left - margin.right,
+    //     height = $(svg_id).height() - margin.top - margin.bottom;
+    //
+    // var svg = d3.select(svg_id)
+    //     .append("svg")
+    //     .attr("width", width + margin.left + margin.right)
+    //     .attr("height", height + margin.top + margin.bottom)
+    //     .append("g")
+    //     .attr("transform",
+    //           "translate(" + margin.left + "," + margin.top + ")");
+    //
+    // var columns = ['sepal_length', 'petal_length', 'sepal_width', 'petal_width']
+    //
+    // d3.select("#selectColumn")
+    //     .selectAll('selectColumn')
+    //     .data(columns)
+    //     .enter()
+    //     .append('option')
+    //     .text(function (d) { return d; })
+    //     .attr("value", function (d) { return d; })
+    //
+    // var y = d3.scaleLinear()
+    //         .domain([ 0,10 ])
+    //         .range([height, 0])
+    //
+    // svg.append("g").call( d3.axisLeft(y) )
+    //
+    // var x = d3.scaleBand()
+    //     .range([ 0, width ])
+    //     .padding(0.05)
+    //
+    // svg.append("g")
+    //     .attr("transform", "translate(0," + height + ")")
+    //     .call(d3.axisBottom(x))
+    // updateViolin(iris_data, 'sepal_length')
+    //
+    // function updateViolin(data, col_name){
+    //
+    //     data.then(data => {
+    //
+    //         x.domain(["Iris-setosa", "Iris-versicolor", "Iris-virginica"])
+    //
+    //         var histogram = d3.histogram()
+    //             .domain(y.domain())
+    //             .thresholds(y.ticks(20))
+    //             .value(d => d)
+    //
+    //         var sumstat = d3.nest()
+    //             .key(function (d) {
+    //                 return d.class;
+    //             })
+    //             .rollup(function (d) {
+    //                 input = d.map(function (g) {
+    //                     return g[col_name];
+    //                 })
+    //                 bins = histogram(input)
+    //                 return (bins)
+    //             })
+    //             .entries(data)
+    //
+    //         var maxNum = 0
+    //         for (i in sumstat) {
+    //             allBins = sumstat[i].value
+    //             lengths = allBins.map(function (a) {
+    //                 return a.length;
+    //             })
+    //             longuest = d3.max(lengths)
+    //             if (longuest > maxNum) {
+    //                 maxNum = longuest
+    //             }
+    //         }
+    //
+    //         var xNum = d3.scaleLinear()
+    //             .range([0, x.bandwidth()])
+    //             .domain([-maxNum, maxNum])
+    //         var sumstat2 = sumstat.splice(0, 3)
+    //         console.log(sumstat2);
+    //
+    //         var u = svg.selectAll(('myViolin'))
+    //             .data(sumstat2)
+    //
+    //         u
+    //             .enter()
+    //             .append("g")
+    //             .attr("transform", function (d) {
+    //                 console.log("check: ", d.key, x(d.key));
+    //                 return ("translate(" + x(d.key) + " ,0)")
+    //             })
+    //             .append("path")
+    //             .datum(function (d) {
+    //                 return (d.value)
+    //             })
+    //             .style("stroke", "none")
+    //             .style("fill", "#89d447")
+    //             .attr("d", d3.area()
+    //                 .x0(function (d) {
+    //                     return (xNum(-d.length))
+    //                 })
+    //                 .x1(function (d) {
+    //                     return (xNum(d.length))
+    //                 })
+    //                 .y(function (d) {
+    //                     return (y(d.x0))
+    //                 })
+    //                 .curve(d3.curveCatmullRom)
+    //             )
+    //
+    //         u.exit().remove()
+    //     })
+    //
+    //
+    // }
+    //
+    //
+    //
+    // d3.selectAll("#selectColumn").on("change", function(d) {
+    //     var selectedOption = d3.select("#selectColumn").property("value")
+    //     console.log(selectedOption)
+    //     updateViolin(iris_data, selectedOption)
+    // })
+
+
+
+
 
 </script>
 
